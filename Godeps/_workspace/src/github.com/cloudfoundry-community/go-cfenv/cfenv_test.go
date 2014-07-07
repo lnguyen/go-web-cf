@@ -31,7 +31,8 @@ var _ = Describe("Cfenv", func() {
 		Context("With valid environment", func() {
 			It("Should deserialize correctly", func() {
 				testEnv := Env(validEnv)
-				cfenv := New(testEnv)
+				cfenv, err := New(testEnv)
+				Ω(err).Should(BeNil())
 				Ω(cfenv).ShouldNot(BeNil())
 
 				Ω(cfenv.ID).Should(BeEquivalentTo("451f045fd16427bb99c895a2649b7b2a"))
@@ -62,16 +63,18 @@ var _ = Describe("Cfenv", func() {
 				Ω(cfenv.Services["sendgrid"][0].Credentials["username"]).Should(BeEquivalentTo("QvsXMbJ3rK"))
 				Ω(cfenv.Services["sendgrid"][0].Credentials["password"]).Should(BeEquivalentTo("HCHMOYluTv"))
 
-				name, err := cfenv.Services.FindByName("elephantsql-dev-c6c60")
+				name, err := cfenv.Services.WithName("elephantsql-dev-c6c60")
 				Ω(name.Name).Should(BeEquivalentTo("elephantsql-dev-c6c60"))
 				Ω(err).Should(BeNil())
 
-				tag, err := cfenv.Services.FindByTagName("postgresql")
-				Ω(tag.Tags).Should(ContainElement("postgresql"))
+				tag, err := cfenv.Services.WithTag("postgresql")
+				Ω(len(tag)).Should(BeEquivalentTo(1))
+				Ω(tag[0].Tags).Should(ContainElement("postgresql"))
 				Ω(err).Should(BeNil())
 
-				label, err := cfenv.Services.FindByLabel("elephantsql-dev")
-				Ω(label.Label).Should(BeEquivalentTo("elephantsql-dev"))
+				label, err := cfenv.Services.WithLabel("elephantsql-dev")
+				Ω(len(label)).Should(BeEquivalentTo(1))
+				Ω(label[0].Label).Should(BeEquivalentTo("elephantsql-dev"))
 				Ω(err).Should(BeNil())
 			})
 		})
@@ -79,7 +82,8 @@ var _ = Describe("Cfenv", func() {
 		Context("With invalid environment", func() {
 			It("Should deserialize correctly, with missing values", func() {
 				testEnv := Env(invalidEnv)
-				cfenv := New(testEnv)
+				cfenv, err := New(testEnv)
+				Ω(err).Should(BeNil())
 				Ω(cfenv).ShouldNot(BeNil())
 
 				Ω(cfenv.ID).Should(BeEquivalentTo(""))

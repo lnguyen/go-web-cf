@@ -1,11 +1,11 @@
 {
 	"ImportPath": "github.com/longnguyen11288/go-cf-web",
-	"GoVersion": "go1.2.1",
+	"GoVersion": "go1.3",
 	"Deps": [
 		{
 			"ImportPath": "github.com/cloudfoundry-community/go-cfenv",
-			"Comment": "v1.3-5-gfff9fbc",
-			"Rev": "fff9fbc2cc5230eb17c464fa6e576c4f7e4397d8"
+			"Comment": "v1.3-12-ga8ee390",
+			"Rev": "a8ee39047929b383cf4edeb8cb16a27cddea77be"
 		},
 		{
 			"ImportPath": "github.com/codegangsta/inject",
@@ -14,8 +14,8 @@
 		},
 		{
 			"ImportPath": "github.com/go-martini/martini",
-			"Comment": "v0.1-151-gbbe60ba",
-			"Rev": "bbe60ba962de9b5627873af719f1c98133d43afb"
+			"Comment": "v1.0",
+			"Rev": "49411a5b646861ad29a6ddd5351717a0a9c49b94"
 		},
 		{
 			"ImportPath": "github.com/hoisie/redis",
@@ -23,7 +23,7 @@
 		},
 		{
 			"ImportPath": "github.com/mitchellh/mapstructure",
-			"Rev": "743fcf103ac7cdbc159e540d9d0e3a7889b87d68"
+			"Rev": "6fb2c832bcac61d01212ab1d172f7a14a8585b07"
 		}
 	]
 }

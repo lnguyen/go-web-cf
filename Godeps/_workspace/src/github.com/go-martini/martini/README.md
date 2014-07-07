@@ -2,8 +2,11 @@
 
 Martini is a powerful package for quickly writing modular web applications/services in Golang.
 
-Language Translations: [Simplified Chinese (zh_CN)](translations/README_zh_cn.md)
-
+Language Translations:
+* [Simplified Chinese (zh_CN)](translations/README_zh_cn.md)
+* [Simplified Portuguese (PT_br)](translations/README_pt_br.md)
+* [한국어 번역](translations/README_ko_kr.md)
+* [Русский](translations/README_ru_RU.md)
 
 ## Getting Started
 
@@ -40,6 +43,11 @@ You will now have a Martini webserver running on `localhost:3000`.
 Join the [Mailing list](https://groups.google.com/forum/#!forum/martini-go)
 
 Watch the [Demo Video](http://martini.codegangsta.io/#demo)
+
+Ask questions on Stackoverflow using the [martini tag](http://stackoverflow.com/questions/tagged/martini)
+
+GoDoc [documentation](http://godoc.org/github.com/go-martini/martini)
+
 
 ## Features
 * Extremely simple to use.
@@ -103,7 +111,7 @@ m.Get("/", func() (int, string) {
 ~~~
 
 #### Service Injection
-Handlers are invoked via reflection. Martini makes use of *Dependency Injection* to resolve dependencies in a Handlers argument list. **This makes Martini completely  compatible with golang's `http.HandlerFunc` interface.** 
+Handlers are invoked via reflection. Martini makes use of *Dependency Injection* to resolve dependencies in a Handlers argument list. **This makes Martini completely  compatible with golang's `http.HandlerFunc` interface.**
 
 If you add an argument to your Handler, Martini will search its list of services and attempt to resolve the dependency via type assertion:
 ~~~ go
@@ -163,12 +171,20 @@ m.Get("/hello/:name", func(params martini.Params) string {
 })
 ~~~
 
-Routes can be matched with regular expressions and globs as well:
+Routes can be matched with globs:
 ~~~ go
 m.Get("/hello/**", func(params martini.Params) string {
   return "Hello " + params["_1"]
 })
 ~~~
+
+Regular expressions can be used as well:
+~~~go
+m.Get("/hello/(?P<name>[a-zA-Z]+)", func(params martini.Params) string {
+  return fmt.Sprintf ("Hello %s", params["name"])
+})
+~~~
+Take a look at the [Go documentation](http://golang.org/pkg/regexp/syntax/) for more info about regular expressions syntax .
 
 Route handlers can be stacked on top of each other, which is useful for things like authentication and authorization:
 ~~~ go
@@ -270,14 +286,14 @@ m.Use(func(c martini.Context, log *log.Logger){
   log.Println("before a request")
 
   c.Next()
-  
+
   log.Println("after a request")
 })
 ~~~
 
 ## Martini Env
 
-Some Martini handlers make use of the `martini.Env` global variable to provide special functionality for development environments vs production environments. It is reccomended that the `MARTINI_ENV=production` environment variable to be set when deploying a Martini server into a production environment.
+Some Martini handlers make use of the `martini.Env` global variable to provide special functionality for development environments vs production environments. It is recommended that the `MARTINI_ENV=production` environment variable to be set when deploying a Martini server into a production environment.
 
 ## FAQ
 
@@ -300,7 +316,7 @@ Start by looking in the [martini-contrib](https://github.com/martini-contrib) pr
 
 ### How do I integrate with existing servers?
 
-A Martini instance implements `http.Handler`, so it can easily be used to serve subtrees 
+A Martini instance implements `http.Handler`, so it can easily be used to serve subtrees
 on existing Go servers. For example this is a working Martini app for Google App Engine:
 
 ~~~ go

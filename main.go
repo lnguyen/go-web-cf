@@ -1,19 +1,18 @@
 package main
 
 import (
-	"fmt"
-	"github.com/cloudfoundry-community/go-cfenv"
+	cfenv "github.com/cloudfoundry-community/go-cfenv"
 	"github.com/go-martini/martini"
 	"github.com/hoisie/redis"
 )
 
 func main() {
-	appEnv := cfenv.Current()
+	appEnv, _ := cfenv.Current()
 	var client redis.Client
-	redis, _ := appEnv.Services.FindByTagName("redis")
+	services, _ := appEnv.Services.WithTag("redis")
+	redis := services[0]
 	client.Addr = redis.Credentials["hostname"] + ":" + redis.Credentials["port"]
 	client.Password = redis.Credentials["password"]
-	fmt.Println(redis)
 	m := martini.Classic()
 	m.Post("/:name", func(params martini.Params) string {
 		client.Set(params["name"], []byte(params["name"]))
